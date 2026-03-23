@@ -82,15 +82,24 @@ BEGIN_AS_NAMESPACE
 //       Instead the compiler should keep track of references in TypeInfo, where it should also state how the reference
 //       is currently stored, i.e. in variable, in register, on stack, etc.
 
-asCCompiler::asCCompiler(asCScriptEngine *engine) : byteCode(engine)
+asCCompiler::asCCompiler(asCScriptEngine *_engine) : byteCode(_engine)
 {
-	builder = 0;
-	script = 0;
-
-	variables = 0;
+	hasCompileErrors           = false;
+	nextLabel                  = 0;
+	numLambdas                 = 0;
+	variables                  = 0;
+	builder                    = 0;
+	engine                     = _engine;
+	script                     = 0;
+	outFunc                    = 0;
+	m_isConstructor            = false;
+	m_isConstructorCalled      = false;
+	m_hasReturned              = false;
+	m_classDecl                = 0;
+	m_globalVar                = 0;
+	isCompilingDefaultArg      = false;
 	isProcessingDeferredParams = false;
-	isCompilingDefaultArg = false;
-	noCodeOutput = 0;
+	noCodeOutput               = 0;
 }
 
 asCCompiler::~asCCompiler()
@@ -18146,37 +18155,37 @@ void asCCompiler::FilterConst(asCArray<int> &funcs, bool removeConst)
 
 asCExprValue::asCExprValue()
 {
-	isTemporary = false;
-	stackOffset = 0;
-	isConstant = false;
-	isVariable = false;
+	isTemporary      = false;
+	stackOffset      = 0;
+	isConstant       = false;
+	isVariable       = false;
 	isExplicitHandle = false;
-	qwordValue = 0;
-	isLValue = false;
-	isRefToLocal = false;
-	isRefSafe = false;
+	qwordValue       = 0;
+	isLValue         = false;
+	isRefToLocal     = false;
+	isRefSafe        = false;
+	dummy            = 0;
 }
 
 void asCExprValue::Set(const asCDataType &dt)
 {
-	dataType = dt;
-
-	isTemporary = false;
-	stackOffset = 0;
-	isConstant = false;
-	isVariable = false;
+	dataType         = dt;
+	isTemporary      = false;
+	stackOffset      = 0;
+	isConstant       = false;
+	isVariable       = false;
 	isExplicitHandle = false;
-	qwordValue = 0;
-	isLValue = false;
-	isRefToLocal = false;
-	isRefSafe = false;
+	qwordValue       = 0;
+	isLValue         = false;
+	isRefToLocal     = false;
+	isRefSafe        = false;
 }
 
 void asCExprValue::SetVariable(const asCDataType &in_dt, int in_stackOffset, bool in_isTemporary)
 {
 	Set(in_dt);
 
-	this->isVariable = true;
+	this->isVariable  = true;
 	this->isTemporary = in_isTemporary;
 	this->stackOffset = (short)in_stackOffset;
 }
