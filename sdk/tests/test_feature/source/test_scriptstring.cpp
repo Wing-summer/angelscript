@@ -4,6 +4,9 @@ using std::string;
 #include "../../../add_on/scripthelper/scripthelper.h"
 #include <vector>
 
+// Implemented in as_string_util.cpp
+extern int asCompareStrings(const char *str1, size_t len1, const char *str2, size_t len2);
+
 namespace TestScriptString
 {
 
@@ -86,6 +89,9 @@ void PrintRef(asIScriptGeneric *gen)
 bool TestUTF16();
 bool Test2();
 
+
+
+
 bool Test()
 {
 	bool fail = false;
@@ -94,6 +100,17 @@ bool Test()
 	asIScriptEngine *engine = 0;
 	asIScriptModule *mod = 0;
 	int r;
+
+	// Test asCompareStrings
+	// https://github.com/anjo76/angelscript/issues/50
+	{
+		if( asCompareStrings("Test", 4, "Test", 4) != 0 ) TEST_FAILED;
+		if( asCompareStrings("Test", 4, "A", 1) != strcmp("Test", "A") ) TEST_FAILED;
+		if( asCompareStrings("A", 1, "Test", 4) != -1 ) TEST_FAILED;
+		if( asCompareStrings("Test", 4, "Tes", 3) != 1 ) TEST_FAILED;
+		if( asCompareStrings("Tes", 3, "Test", 4) != strcmp("Tes", "Test") ) TEST_FAILED;
+		if( asCompareStrings("Test", 4, "", 0) != 1 ) TEST_FAILED;
+	}
 
 	// Test non-terminated heredoc string
 	// https://www.gamedev.net/forums/topic/714946-crash-parsing-non-terminated-heredoc-string/5459282/
