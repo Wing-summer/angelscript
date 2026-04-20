@@ -111,27 +111,27 @@ bool Test()
 			PRINTF("result1 : %d\n", r1);
 			TEST_FAILED;
 		}
-		if( (r1 = asCompareStrings("Test", 4, "A", 1)) != (r2 = strcmp("Test", "A")) )
+		if( (r1 = asCompareStrings("Test", 4, "A", 1)) <= 0 || (r2 = strcmp("Test", "A")) <= 0 ) // memcmp used by asCompareString is only guaranteed to return positive, but not necessarily 1
 		{
 			PRINTF("result1: %d, result2: %d\n", r1, r2);
 			TEST_FAILED;
 		}
-		if( (r1 = asCompareStrings("A", 1, "Test", 4)) != -1 )
+		if( (r1 = asCompareStrings("A", 1, "Test", 4)) >= 0 )
 		{
 			PRINTF("result1 : %d\n", r1);
 			TEST_FAILED;
 		}
-		if( (r1 = asCompareStrings("Test", 4, "Tes", 3)) != 1 )
+		if( (r1 = asCompareStrings("Test", 4, "Tes", 3)) <= 0 )
 		{
 			PRINTF("result1 : %d\n", r1);
 			TEST_FAILED;
 		}
-		if( (r1 = asCompareStrings("Tes", 3, "Test", 4)) != (r2 = strcmp("Tes", "Test")) )
+		if( (r1 = asCompareStrings("Tes", 3, "Test", 4)) >= 0 || (r2 = strcmp("Tes", "Test")) >= 0 )
 		{
 			PRINTF("result1: %d, result2: %d\n", r1, r2);
 			TEST_FAILED;
 		}
-		if( (r1 = asCompareStrings("Test", 4, "", 0)) != 1 )
+		if( (r1 = asCompareStrings("Test", 4, "", 0)) <= 0 )
 		{
 			PRINTF("result1 : %d\n", r1);
 			TEST_FAILED;
