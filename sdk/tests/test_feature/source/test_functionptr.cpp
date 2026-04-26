@@ -1219,7 +1219,7 @@ void test()
 			TEST_FAILED;
 		if (bout.buffer != "test (5, 1) : Info    : Compiling void main2()\n"
 						   "array (0, 0) : Error   : The subtype 'FD' has no default factory\n"
-						   "test (7, 8) : Error   : Attempting to instantiate invalid template type 'array<FD>'\n"
+						   "test (7, 8) : Error   : Attempting to instantiate invalid template 'array<FD>'\n"
 						   "test (8, 3) : Warning : 'a' is not initialized.\n"
 						   "test (8, 3) : Error   : Illegal operation on 'int'\n")
 		{
@@ -1667,7 +1667,7 @@ void test()
 		r = ExecuteString(engine, "array<float>::MyCallback2 @cb;");
 		if (r >= 0)
 			TEST_FAILED;
-		if (bout.buffer != "ExecuteString (1, 7) : Error   : Attempting to instantiate invalid template type 'array<float>'\n")
+		if (bout.buffer != "ExecuteString (1, 7) : Error   : Attempting to instantiate invalid template 'array<float>'\n")
 		{
 			PRINTF("%s", bout.buffer.c_str());
 			TEST_FAILED;

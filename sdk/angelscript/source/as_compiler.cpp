@@ -13153,6 +13153,19 @@ int asCCompiler::InstantiateTemplateFunctions(asCArray<int>& funcs, asCScriptNod
 		}
 
 		funcs[i] = engine->GetTemplateFunctionInstance(func, dataTypes);
+		if( funcs[i] < 0 )
+		{
+			asCString msg;
+			asCString subTypes = dataTypes[0].Format(func->nameSpace);
+			for (asUINT s = 1; s < dataTypes.GetLength(); s++)
+			{
+				subTypes += ",";
+				subTypes += dataTypes[s].Format(func->nameSpace);
+			}
+			msg.Format(TXT_INSTANCING_INVLD_TMPL_TYPE_s_s, func->name.AddressOf(), subTypes.AddressOf());
+			Error(msg, startNode);
+			return -1;
+		}
 	}
 
 	return 0;
