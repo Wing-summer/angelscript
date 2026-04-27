@@ -18333,9 +18333,9 @@ void asCExprValue::SetConstantData(const asCDataType &dt, asQWORD qw)
 	// works on both big endian and little endian CPUs.
 	if (dataType.GetSizeInMemoryBytes() == 1)
 		byteValue = (asBYTE)qw;
-	if (dataType.GetSizeInMemoryBytes() == 2)
+	else if (dataType.GetSizeInMemoryBytes() == 2)
 		wordValue = (asWORD)qw;
-	if (dataType.GetSizeInMemoryBytes() == 4)
+	else if (dataType.GetSizeInMemoryBytes() == 4)
 		dwordValue = (asDWORD)qw;
 	else
 		qwordValue = qw;
@@ -18348,9 +18348,9 @@ asQWORD asCExprValue::GetConstantData()
 	// works on both big endian and little endian CPUs.
 	if (dataType.GetSizeInMemoryBytes() == 1)
 		qw = byteValue;
-	if (dataType.GetSizeInMemoryBytes() == 2)
+	else if (dataType.GetSizeInMemoryBytes() == 2)
 		qw = wordValue;
-	if (dataType.GetSizeInMemoryBytes() == 4)
+	else if (dataType.GetSizeInMemoryBytes() == 4)
 		qw = dwordValue;
 	else
 		qw = qwordValue;
